@@ -1,0 +1,15 @@
+{
+  "name": "hub-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark",
+  "license": "ISC",
+  "dependencies": {
+    "browser-sync": "^2.18.13",
+    "connect-history-api-fallback": "^1.3.0"
+  }
+}
