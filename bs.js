@@ -6,5 +6,6 @@ browserSync({
   },
   logLevel: "debug",
   serveStatic: ['.'],
+  files: ["./onbrand.css", "onbrand.js", "./client/client.css", "./includes/header.html", "./includes/footer.html"]
 
 });

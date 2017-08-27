@@ -2,9 +2,9 @@
   /** 
    *  Header & Footer Ajax
    */
-  var subdir = "default",
-    version = 1;
-
+  var subdir = "default", 
+	  version = 1;
+	
   /* Insert Header */
   $.ajax({
     url: '//cihost.uberflip.com/' + subdir + '/includes/header.html?' + version
@@ -24,51 +24,64 @@
    *  Custom Functions
    */
 
+   var relativeLinks = function(url) {
+    var matchThis = new RegExp('^((http[s]?|ftp):\/)?\/?([^:\/\s]+)?(' + url + ')', 'gi');
+    $('a').each(function(index, el) {
+      var testThis = $(this).attr('href');
+      if(matchThis.test(testThis)) {
+        var newHref = testThis.replace(matchThis, '');
+        $(this).attr('href', newHref);
+        $(this).attr('target', '');
+      }
+    });
+   }
+
   /** 
    *  Events
    */
+    Hubs.Events.on('load', function(){
+      relativeLinks('markwilkins.uberflip.com')
+    })
+    Hubs.Events.on('pageChange', function(){
+      relativeLinks('markwilkins.uberflip.com')
+    })
+    Hubs.Events.on('itemsLoaded', function(){
+      relativeLinks('markwilkins.uberflip.com')
+    })
 
-  $(window).on('load', function() {
-    fixShareWidget();
-    $('a').each(function(index, el) {
-      $(this).attr('href', $(this).attr('href').replace('https://markwilkins.uberflip.com/', '/'));
+
+    $(window).on('load', function(){
+      fixShareWidget();
+    }).on('pageChange', function(){
+    }).on('loadAdditionalItems', function(){      
+    }).on('resize', function(){
+      sideCtaFix();
+      addThisFix();
+    }).on('scroll', function(){
+      sideCtaFix();
+      addThisFix();
+    }).on('activateFormCta', function(){
+     
+    }).on('submitCtaForm', function(){
+     
+    }).on('trackCta', function(){
+     
+    }).on('trackCtaView', function(){
+     
+    }).on('loadExtraInfo', function(){
+     
+    }).on('search', function(){
+     
+    }).on('loadFormFieldValues', function(){
+     
+    }).on('trackPageView', function(){
+     
+    }).on('trackSocial', function(){
+     
+    }).on('signalMetricsTemp', function(){
+     
+    }).on('updateMAPUsers', function(){
+     
     });
-  }).on('pageChange', function() {
-    $('a').each(function(index, el) {
-      $(this).attr('href', $(this).attr('href').replace('https://markwilkins.uberflip.com/', '/'));
-    });
-  }).on('loadAdditionalItems', function() {
-    $('a').each(function(index, el) {
-      $(this).attr('href', $(this).attr('href').replace('https://markwilkins.uberflip.com/', '/'));
-    });
-  }).on('resize', function() {
-    sideCtaFix();
-    addThisFix();
-  }).on('scroll', function() {
-    sideCtaFix();
-    addThisFix();
-  }).on('activateFormCta', function() {
-
-  }).on('submitCtaForm', function() {
-
-  }).on('trackCta', function() {
-
-  }).on('trackCtaView', function() {
-
-  }).on('loadExtraInfo', function() {
-
-  }).on('search', function() {
-
-  }).on('loadFormFieldValues', function() {
-
-  }).on('trackPageView', function() {
-
-  }).on('trackSocial', function() {
-
-  }).on('signalMetricsTemp', function() {
-
-  }).on('updateMAPUsers', function() {
-
-  });
-
+     
 }(window.jQuery, window.Hubs));
