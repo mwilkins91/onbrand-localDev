@@ -39,7 +39,7 @@ const plugins = [
 	precss({}), //Sass
 	calc(), //turns calc(10px + 20px) to 30px... optimization
 	mqpacker(), //puts all media quires into one
-	cssnano() //minifiy
+	cssnano({zindex: false}) //minifiy
 ]
 
 //If you make a mistake in your css, do this
