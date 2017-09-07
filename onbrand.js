@@ -1,11 +1,5 @@
-(function($, Hubs, undefined) {
-
-
-//Switch me to true when you deploy
-  var production = false;
-//change me to the base url of your hub (no http(s) or www)
-  var hubUrl = 'markwilkins.uberflip.com';
-
+  
+  const devOptions = require('./dev-options.js')
 
 
   /** 
@@ -15,7 +9,7 @@
     version = 1;
 
   var urlPath;
-  if (!production) {
+  if (!devOptions.production) {
     urlPath = '/includes/'
   } else {
     urlPath = '//cihost.uberflip.com/' + subdir + '/includes/'
@@ -57,15 +51,15 @@
    *  Events
    */
 
-  if (!production) {
+  if (!devOptions.production) {
     Hubs.Events.on('load', function() {
-      relativeLinks(hubUrl)
+      relativeLinks(devOptions.shortHubUrl)
     })
     Hubs.Events.on('pageChange', function() {
-      relativeLinks(hubUrl)
+      relativeLinks(devOptions.shortHubUrl)
     })
     Hubs.Events.on('itemsLoaded', function() {
-      relativeLinks(hubUrl)
+      relativeLinks(devOptions.shortHubUrl)
     })
   }
 
@@ -101,4 +95,3 @@
 
   });
 
-}(window.jQuery, window.Hubs));

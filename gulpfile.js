@@ -1,6 +1,8 @@
+const devOptions = require('./dev-options.js')
+
 //https://markwilkins.uberflip.com/
 //Include the address of your hub here:
-const devHub = 'https://markwilkins.uberflip.com/';
+const devHub = devOptions.fullHubUrl;
 
 
 
