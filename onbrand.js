@@ -4,7 +4,7 @@
   /** 
    *  Header & Footer Ajax
    */
-  version = 1;
+  const version = 1;
 
   var urlPath;
   if (!devOptions.production) {
@@ -62,17 +62,17 @@
    *  Events
    */
 
-  if (!production) {
+  if (!devOptions.production) {
     Hubs.Events.on('load', function() {
-      _relativeLinks(hubUrl)
+      _relativeLinks(devOptions.shortHubUrl)
       Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
     })
     Hubs.Events.on('pageChange', function() {
-      _relativeLinks(hubUrl)
+      _relativeLinks(devOptions.shortHubUrl)
       Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
     })
     Hubs.Events.on('itemsLoaded', function() {
-      _relativeLinks(hubUrl)
+      _relativeLinks(devOptions.shortHubUrl)
     })
   }
 
