@@ -1,19 +1,20 @@
-#How to:
+# How to:
 
-1: ssh into the onbrand server, and run `onbrand companyName`.
-2: after the generator is finished, and you have entered the git password, type `git remote -v`
-3: copy the fetch url that is provided by the command entered in step 2.
-4: exit the ssh with `exit` (or open a new terminal tab) and naviate to your projects directory on your local terminal
-5: in your project directory, type `git clone <fetch url>`
-6: after the clone is done, navigate inside and run `npm install`
-7: open your new project in your text editor, and open the _dev-options.js_ file.
-8: Edit the options to match your current project.
-9: In the uberflip backend app, add the below snippets to the appropriate areas of the custom code section.
-10: in your terminal, run `gulp`.
+1. ssh into the onbrand server, and run `onbrand companyName`.
+2. after the generator is finished, and you have entered the git password, type `git remote -v`
+3. copy the fetch url that is provided by the command entered in step 2.
+4. exit the ssh with `exit` (or open a new terminal tab) and naviate to your projects directory on your local terminal
+5. in your project directory, type `git clone <fetch url>`
+6. after the clone is done, navigate inside and run `npm install`
+7. open your new project in your text editor, and open the _dev-options.js_ file.
+8. Edit the options to match your current project.
+9. In the uberflip backend app, add the below snippets to the appropriate areas of the custom code section.
+10. in your terminal, run `gulp`.
 **You're ready! Go!**
 
-#Possible Errors
-- when I gulp, the wrong page opens in my browser
+# Possible Errors
+- when I gulp, the wrong page opens in my browser:
+
 **This is probably either due to a redirect, or the urls being wrong in dev-options.js. Double check they are correct, and they match the url at the end of the redirect chain. If a client changed their url while you were working, you may need to update them.**
 
 
