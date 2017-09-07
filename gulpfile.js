@@ -54,14 +54,16 @@ function onError(err) {
 	this.emit('end');
 }
 
-//Git reminder 
-setInterval(function() {
-	notifier.notify({
-		title: 'MarkBot:',
-		message: 'Hey OnBrander, you\'ve been working for a while now, it might be time for a git commit! 😎',
-		wait: true
-	});
-}, 1200000)
+if(devOptions.remindMeToGit){
+	//Git reminder 
+	setInterval(function() {
+		notifier.notify({
+			title: 'MarkBot:',
+			message: 'Hey OnBrander, you\'ve been working for a while now, it might be time for a git commit! 😎',
+			wait: true
+		});
+	}, 1200000)
+}
 
 //Compile our scss, run our plugins, autoprefix and do sourcemaps etc
 gulp.task('onbrand-css', function() {
