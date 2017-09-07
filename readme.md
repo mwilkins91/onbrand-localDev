@@ -1,5 +1,7 @@
 Add to hub 
 
+
+#CSS
 ```
 
 /** 
@@ -14,6 +16,7 @@ Add to hub
 
 ```
 
+#HTML
 ```
 
 <!--OnBrand-Dev Tag -- HTML-->
@@ -26,6 +29,7 @@ Add to hub
 ```
 
 
+#JS
 ```
 
 /** 
@@ -34,7 +38,7 @@ Add to hub
 }(window.jQuery, window.Hubs));
 </script>
 <script src="//cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js"></script>
-<script src="/onbrand.js"></script>
+<script src="/build/onbrand.js"></script>
 <script>
 (function($, Hubs, undefined) {
 /*  Add your JavaScript below */

@@ -1,4 +1,3 @@
-
 //https://markwilkins.uberflip.com/
 //Include the address of your hub here:
 const devHub = 'https://markwilkins.uberflip.com/';
@@ -7,19 +6,29 @@ const devHub = 'https://markwilkins.uberflip.com/';
 
 //Assorted dependencies
 const gulp = require('gulp');
-const postcss = require('gulp-postcss');
-const sourcemaps = require('gulp-sourcemaps');
 const plumber = require('gulp-plumber');
-const autoprefixer = require('gulp-autoprefixer');
-const precss = require('precss');
-const calc = require("postcss-calc");
-const mqpacker = require("css-mqpacker");
-const cssnano = require('cssnano');
-const rename = require("gulp-rename");
+const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const notifier = require('node-notifier');
 const browserSync = require('browser-sync').create();
+const rename = require("gulp-rename");
 
+//CSS
+const precss = require('precss');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('gulp-autoprefixer');
+const calc = require("postcss-calc");
+const mqpacker = require("css-mqpacker");
+const cssnano = require('cssnano');
+
+//JS
+const browserify = require('browserify');
+const babelify = require('babelify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const uglify = require('gulp-uglify');
+const livereload = require('gulp-livereload');
+const es2015 = require('babel-preset-es2015');
 
 
 
@@ -43,6 +52,14 @@ function onError(err) {
 	this.emit('end');
 }
 
+//Git reminder 
+setInterval(function() {
+	notifier.notify({
+		title: 'MarkBot:',
+		message: 'Hey OnBrander, you\'ve been working for a while now, it might be time for a git commit! 😎',
+		wait: true
+	});
+}, 1200000)
 
 //Compile our scss, run our plugins, autoprefix and do sourcemaps etc
 gulp.task('onbrand-css', function() {
@@ -53,7 +70,7 @@ gulp.task('onbrand-css', function() {
 		.pipe(sourcemaps.init())
 		.pipe(postcss(plugins))
 		.pipe(autoprefixer())
-		.pipe(sourcemaps.write())
+		.pipe(sourcemaps.write('./sourceMaps'))
 		.pipe(gulp.dest('./build/'));
 }).on('error', function(error) { onError(error) });
 
@@ -66,7 +83,7 @@ gulp.task('client-css', function() {
 		.pipe(sourcemaps.init())
 		.pipe(postcss(plugins))
 		.pipe(autoprefixer())
-		.pipe(sourcemaps.write())
+		.pipe(sourcemaps.write('./sourceMaps'))
 		.pipe(gulp.dest('./build/'));
 }).on('error', function(error) { onError(error) });
 
@@ -83,8 +100,24 @@ gulp.task('bs', function() {
 	});
 })
 
+//Babel and browser out JS
+gulp.task('js', function () {
+    // app.js is your main JS file with all your module inclusions
+    return browserify({entries: './onbrand.js', debug: true})
+        .transform("babelify", { presets: ["es2015"] })
+        .bundle()
+        .pipe(source('onbrand.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./sourceMaps'))
+        .pipe(gulp.dest('./build'))
+        // .pipe(livereload());
+});
 
-gulp.task('default', ['bs','onbrand-css', 'client-css'], () => {
+
+gulp.task('default', ['bs', 'onbrand-css', 'client-css', 'js'], () => {
 	gulp.watch('./onbrand.css', ['onbrand-css']);
 	gulp.watch('./client/client.css', ['client-css']);
+	gulp.watch('./onbrand.js', ['js']);
 });
