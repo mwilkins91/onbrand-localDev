@@ -1,18 +1,16 @@
-  
   const devOptions = require('./dev-options.js')
 
 
   /** 
    *  Header & Footer Ajax
    */
-  var subdir = "default",
-    version = 1;
+  version = 1;
 
   var urlPath;
   if (!devOptions.production) {
     urlPath = '/includes/'
   } else {
-    urlPath = '//cihost.uberflip.com/' + subdir + '/includes/'
+    urlPath = '//cihost.uberflip.com/' + devOptions.subdir + '/includes/'
   }
 
 
@@ -35,14 +33,27 @@
    *  Custom Functions
    */
 
-  var relativeLinks = function(url) {
+  var _internalLink = function(e) {
+    e.preventDefault()
+    console.log(e.target.href)
+    Hubs.changePage(e.target.href);
+  }
+
+  var _relativeLinks = function(url) {
+    //We need relative links for local dev, so we regex for the url as the href
     var matchThis = new RegExp('^((http[s]?|ftp):\/)?\/?([^:\/\s]+)?(' + url + ')', 'gi');
-    $('a').each(function(index, el) {
+    $('a').not('.onBrand--LocalDevLink').each(function(index, el) {
       var testThis = $(this).attr('href');
       if (matchThis.test(testThis)) {
         var newHref = testThis.replace(matchThis, '');
+        if (!(newHref[0] === '/')) {
+          newHref = '/' + newHref;
+        }
         $(this).attr('href', newHref);
         $(this).attr('target', '');
+        //add event listener to do internal page change instead of full reload
+        $(this).on('click', _internalLink);
+        $(this).addClass('onBrand--LocalDevLink');
       }
     });
   }
@@ -51,47 +62,44 @@
    *  Events
    */
 
-  if (!devOptions.production) {
+  if (!production) {
     Hubs.Events.on('load', function() {
-      relativeLinks(devOptions.shortHubUrl)
+      _relativeLinks(hubUrl)
+      Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
     })
     Hubs.Events.on('pageChange', function() {
-      relativeLinks(devOptions.shortHubUrl)
+      _relativeLinks(hubUrl)
+      Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
     })
     Hubs.Events.on('itemsLoaded', function() {
-      relativeLinks(devOptions.shortHubUrl)
+      _relativeLinks(hubUrl)
     })
   }
 
-  $(window).on('load', function() {
-    fixShareWidget();
-  }).on('pageChange', function() {}).on('loadAdditionalItems', function() {}).on('resize', function() {
-    sideCtaFix();
-    addThisFix();
-  }).on('scroll', function() {
-    sideCtaFix();
-    addThisFix();
-  }).on('activateFormCta', function() {
+  /** 
+   *  Events
+   */
 
-  }).on('submitCtaForm', function() {
+  Hubs.Events.on('load', function() {
+      fixShareWidget();
+    })
+    .on('pageChange', function() {
 
-  }).on('trackCta', function() {
+    }).on('itemsLoaded', function(itemIds, selectors) {
 
-  }).on('trackCtaView', function() {
 
-  }).on('loadExtraInfo', function() {
+    }).on('resize', function() {
+      sideCtaFix();
+      addThisFix();
+    }).on('scroll', function() {
+      sideCtaFix();
+      addThisFix();
+    }).on('ctaActivate', function(ctaId) {
 
-  }).on('search', function() {
 
-  }).on('loadFormFieldValues', function() {
+    }).on('ctaFormSubmitSuccess', function(ctaId, mappedData, ctaName) {
 
-  }).on('trackPageView', function() {
 
-  }).on('trackSocial', function() {
+    }).on('search', function() {
 
-  }).on('signalMetricsTemp', function() {
-
-  }).on('updateMAPUsers', function() {
-
-  });
-
+    });
