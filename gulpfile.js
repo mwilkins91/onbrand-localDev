@@ -98,7 +98,7 @@ gulp.task('bs', function() {
 		},
 		// logLevel: "debug",
 		serveStatic: ['.'],
-		files: ["./build/onbrand.js", "./sourceMaps/client.css.map", "./sourceMaps/onbrand.css.map", "./sourceMaps/client.css.map", "./sourceMaps/onbrand.js.map", "./includes/header.html", "./includes/footer.html", "./build/onbrand.css", "./build/client.css"]
+		files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
 	});
 })
 
