@@ -19,7 +19,7 @@
 
 - My sourcemaps don't seem to be working...:
 
-**I'm not sure if this is a bug in chome's dev tools, or gulp, or both, but if you load the page with chrome's network tab (in the dev tools) open, the source maps should then work. ¯\_(ツ)_/¯**
+**I'm not sure if this is a bug in chome's dev tools, or gulp, or both, but if you load the page with chrome's network tab (in the dev tools) open, the source maps should then work. ¯\\_(ツ)_/¯**
 
 
 # Add to hub 
