@@ -1,15 +1,14 @@
 # How to:
 
-1. ssh into the onbrand server, and run `onbrand companyName`.
-2. after the generator is finished, and you have entered the git password, type `git remote -v`
-3. copy the fetch url that is provided by the command entered in step 2.
-4. exit the ssh with `exit` (or open a new terminal tab) and naviate to your projects directory on your local terminal
-5. in your project directory, type `git clone <fetch url>`
-6. after the clone is done, navigate inside and run `npm install`
-7. open your new project in your text editor, and open the _dev-options.js_ file.
-8. Edit the options to match your current project.
-9. In the uberflip backend app, add the below snippets to the appropriate areas of the custom code section.
-10. in your terminal, run `gulp`.
+1. ssh into the onbrand server, and run `generate`. Follow the instructions.
+2. after the generator is finished, and you have entered the git username and password, copy the gitlab address that is displayed
+3. exit the ssh with `exit` (or open a new terminal tab) and navigate to your projects directory on your local terminal
+4. in your project directory, type `git clone <fetch url>`
+5. after the clone is done, navigate inside and run `npm install`
+6. open your new project in your text editor, and open the _dev-options.js_ file.
+7. Edit the options to match your current project.
+8. In the uberflip backend app, add the below snippets to the appropriate areas of the custom code section.
+9. in your terminal, run `gulp`.
 **You're ready! Go!**
 
 # Possible Errors
