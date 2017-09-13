@@ -1,5 +1,5 @@
   const devOptions = require('./dev-options.js')
-
+{
 
   /** 
    *  Header & Footer Ajax

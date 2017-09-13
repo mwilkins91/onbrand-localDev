@@ -43,15 +43,27 @@ const plugins = [
 ]
 
 //If you make a mistake in your css, do this
-function onError(err) {
+function onError(err, that) {
 	gutil.beep();
 	notifier.notify({
 		title: 'MarkBot:',
 		message: 'Hey onBrander, looks like gulp hit an error 😫. Check the terminal for details.',
 		wait: true
 	});
-	console.log(err);
-	this.emit('end');
+
+	if(!this.emit) { //JS err
+		console.log("\x1b[33m", 'File:', "\x1b[0m", err.filename);
+		console.log("\x1b[33m", 'Line:', "\x1b[0m", err.loc.line);
+		console.log(err.codeFrame)
+		that.emit('end');
+
+	} else { //CSS err
+		console.log("\x1b[33m", 'Name:', "\x1b[0m", err.name);
+		console.log("\x1b[33m", 'Reason:', "\x1b[0m", err.reason);
+		console.log("\x1b[33m", 'File:', "\x1b[0m", err.file);
+		console.log("\x1b[33m", 'Line:', "\x1b[0m", err.line);
+		this.emit('end');	
+	}
 }
 
 if(devOptions.remindMeToGit){
@@ -110,6 +122,7 @@ gulp.task('js', function () {
     return browserify({entries: './onbrand.js', debug: true})
         .transform("babelify", { presets: ["es2015"] })
         .bundle()
+        .on('error', function(error) { onError(error, this) })
         .pipe(source('onbrand.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
