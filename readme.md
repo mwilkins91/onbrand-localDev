@@ -17,6 +17,10 @@
 
 **This is probably either due to a redirect, or the urls being wrong in dev-options.js. Double check they are correct, and they match the url at the end of the redirect chain. If a client changed their url while you were working, you may need to update them.**
 
+- My sourcemaps don't seem to be working...:
+
+**I'm not sure if this is a bug in chome's dev tools, or gulp, or both, but if you load the page with chrome's network tab (in the dev tools) open, the source maps should then work. ¯\_(ツ)_/¯ **
+
 
 # Add to hub 
 

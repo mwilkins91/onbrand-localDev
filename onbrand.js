@@ -1,16 +1,16 @@
-  const devOptions = require('./dev-options.js')
-{
+  const devOptions = require('./dev-options.js');
+
 
   /** 
    *  Header & Footer Ajax
    */
   const version = 1;
 
-  var urlPath;
+  let urlPath;
   if (!devOptions.production) {
-    urlPath = '/includes/'
+    urlPath = '/includes/';
   } else {
-    urlPath = '//cihost.uberflip.com/' + devOptions.subdir + '/includes/'
+    urlPath = '//cihost.uberflip.com/' + devOptions.subdir + '/includes/';
   }
 
 
@@ -29,17 +29,17 @@
     $('body').append(data);
   });
 
+
+
   /** 
-   *  Custom Functions
+   *  Utility Functions
    */
-
-  var _internalLink = function(e) {
-    e.preventDefault()
-    console.log(e.target.href)
+  const _internalLink = function(e) {
+    e.preventDefault();
     Hubs.changePage(e.target.href);
-  }
+  };
 
-  var _relativeLinks = function(url) {
+  const _relativeLinks = function(url) {
     //We need relative links for local dev, so we regex for the url as the href
     var matchThis = new RegExp('^((http[s]?|ftp):\/)?\/?([^:\/\s]+)?(' + url + ')', 'gi');
     $('a').not('.onBrand--LocalDevLink').each(function(index, el) {
@@ -56,10 +56,17 @@
         $(this).addClass('onBrand--LocalDevLink');
       }
     });
-  }
+  };
 
   /** 
-   *  Events
+   *  Custom Functions
+   */
+
+
+
+
+  /** 
+   *  Local Development Events
    */
 
   if (!devOptions.production) {
@@ -75,6 +82,8 @@
       _relativeLinks(devOptions.shortHubUrl)
     })
   }
+
+
 
   /** 
    *  Events
