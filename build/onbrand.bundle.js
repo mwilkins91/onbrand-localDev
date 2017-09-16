@@ -71,16 +71,19 @@
 
 
 // -- Imports -- //
-var devOptions = __webpack_require__(1);
-var onbrand_scss = __webpack_require__(2);
+var devOptions = __webpack_require__(1); //Development options
+var onbrand_scss = __webpack_require__(2); //Onbrand AND client styles
 var htmlHeader = __webpack_require__(3);
-var htmlFooter = __webpack_require__(8);
-var onbrandUtilities = __webpack_require__(9);
+var htmlFooter = __webpack_require__(4);
+var onbrandUtilities = __webpack_require__(5); //helper functions for dev
 
 // -- Startup -- //
 devOptions.production ? null : onbrandUtilities(devOptions);
 $('body').prepend(htmlHeader);
 $('body').append(htmlFooter);
+
+// -- Custom Functions -- //
+
 
 // -- Hub Events -- //
 var onLoadAndPageChange = function onLoadAndPageChange() {};
@@ -108,8 +111,8 @@ var devOptions = {
 	production: false, //Switch me to true when you deploy
 	shortHubUrl: 'mark3.ufcontent.com/', //change me to the base url of your hub (no http(s) or www)
 	fullHubUrl: 'http://mark3.ufcontent.com/', //exact url to access hub
-	subdir: 'markwilkins', //name of the cihost folder
-	remindMeToGit: true
+	remindMeToGit: true,
+	notifyOnBuildSuccess: true
 };
 
 module.exports = devOptions;
@@ -127,17 +130,13 @@ module.exports = devOptions;
 module.exports = "<div id=\"injected-header\">\n\t\n</div>";
 
 /***/ }),
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = "<div id=\"injected-footer\">\n\t\n\t\n</div>";
 
 /***/ }),
-/* 9 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

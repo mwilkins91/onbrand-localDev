@@ -6,8 +6,8 @@ const browserSync = require('browser-sync');
 const calc = require("postcss-calc");
 const mqpacker = require("css-mqpacker");
 const cssnano = require('cssnano');
-
-
+const notifier = require('node-notifier');
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 //LOADER *RULE* - JS
 const javascript = {
 	test: /\.(js)$/,
@@ -76,7 +76,19 @@ const html = {
 	}]
 }
 
+// Error Handler
 
+const onError = (err) => {
+	notifier.notify({
+		title: 'MarkBot:',
+		message: 'Hey onBrander, looks like webpack hit an error 😫. Check the terminal for details.',
+		wait: true
+	});
+}
+
+
+
+// The Final Module Export
 module.exports = (env) => {
 	return {
 		context: resolve(__dirname),
@@ -96,6 +108,16 @@ module.exports = (env) => {
 		},
 		plugins: [
 			new ExtractTextPlugin('style.css'),
+			new WebpackBuildNotifierPlugin({
+				title: "MarkBot",
+				suppressWarning: true,
+				suppressSuccess: !devOptions.notifyOnBuildSuccess ? "always" : false,
+				onClick: function(){return;},
+				messageFormatter: function(obj, string){
+					console.log(obj, string);
+					return `Hey Onbrander! Wepack hit an error in ${string}. Check the terminal for details!`
+				}
+			  })
 		],
 		watch: true,
 		stats: {
@@ -119,8 +141,18 @@ browserSync({
 	proxy: {
 		target: devOptions.fullHubUrl
 	},
-	logLevel: "debug",
 	serveStatic: ['./build'],
 	files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
 
 });
+
+if(devOptions.remindMeToGit){
+	//Git reminder 
+	setInterval(function() {
+		notifier.notify({
+			title: 'MarkBot:',
+			message: 'Hey OnBrander, you\'ve been working for a while now, it might be time for a git commit! 😎',
+			wait: true
+		});
+	}, 1200000)
+}
