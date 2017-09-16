@@ -1,101 +1,31 @@
+  // -- Imports -- //
   const devOptions = require('./dev-options.js');
-  const client_scss = require('./client/client.scss');
   const onbrand_scss = require('./onbrand.scss');
-
-
-  /** 
-   *  Header & Footer Ajax
-   */
-  const version = 1;
-
-  let urlPath;
-  if (!devOptions.production) {
-    urlPath = '/includes/';
-  } else {
-    urlPath = '//cihost.uberflip.com/' + devOptions.subdir + '/includes/';
-  }
-
-
-  /* Insert Header */
-  $.ajax({
-    url: urlPath + 'header.html?' + version
-  }).done(function(data) {
-    $('body').prepend(data);
-  });
-
-  /* Insert Footer */
-  $.ajax({
-    url: urlPath + 'footer.html?' + version
-  }).done(function(data) {
-    $('body > footer').remove();
-    $('body').append(data);
-  });
-
-
-
-  /** 
-   *  Utility Functions
-   */
-  const _internalLink = function(e) {
-    e.preventDefault();
-    Hubs.changePage(e.target.href);
-  };
-
-  const _relativeLinks = function(url) {
-    //We need relative links for local dev, so we regex for the url as the href
-    var matchThis = new RegExp('^((http[s]?|ftp):\/)?\/?([^:\/\s]+)?(' + url + ')', 'gi');
-    $('a').not('.onBrand--LocalDevLink').each(function(index, el) {
-      var testThis = $(this).attr('href');
-      if (matchThis.test(testThis)) {
-        var newHref = testThis.replace(matchThis, '');
-        if (!(newHref[0] === '/')) {
-          newHref = '/' + newHref;
-        }
-        $(this).attr('href', newHref);
-        $(this).attr('target', '');
-        //add event listener to do internal page change instead of full reload
-        $(this).on('click', _internalLink);
-        $(this).addClass('onBrand--LocalDevLink');
-      }
-    });
-  };
-
-  /** 
-   *  Custom Functions
-   */
+  const htmlHeader = require('./includes/header.html');
+  const htmlFooter = require('./includes/footer.html');
+  const onbrandUtilities = require('./onbrandUtilities.js');
+  
+  // -- Startup -- //
+  devOptions.production ? null : onbrandUtilities(devOptions);
+  $('body').prepend(htmlHeader);
+  $('body').append(htmlFooter);
 
 
 
 
-  /** 
-   *  Local Development Events
-   */
-
-  if (!devOptions.production) {
-    Hubs.Events.on('load', function() {
-      _relativeLinks(devOptions.shortHubUrl)
-      Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
-    })
-    Hubs.Events.on('pageChange', function() {
-      _relativeLinks(devOptions.shortHubUrl)
-      Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
-    })
-    Hubs.Events.on('itemsLoaded', function() {
-      _relativeLinks(devOptions.shortHubUrl)
-    })
-  }
 
 
 
-  /** 
-   *  Events
-   */
+  // -- Hub Events -- //
+const onLoadAndPageChange = function() {
 
+};
   Hubs.Events.on('load', function() {
+    onLoadAndPageChange();
       fixShareWidget();
     })
     .on('pageChange', function() {
-
+      onLoadAndPageChange();
     }).on('itemsLoaded', function(itemIds, selectors) {
 
 

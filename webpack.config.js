@@ -3,23 +3,39 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const devOptions = require('./dev-options.js');
 const browserSync = require('browser-sync');
+const calc = require("postcss-calc");
+const mqpacker = require("css-mqpacker");
+const cssnano = require('cssnano');
 
 
+//LOADER *RULE* - JS
 const javascript = {
 	test: /\.(js)$/,
 	use: [{
 		loader: 'babel-loader',
-		options: { presets: ['es2015'] }
+		options: {
+			presets: ['es2015']
+		}
 	}],
 };
 
+
+
+//LOADER *RULES* - CSS/SASS
 const postcss = {
 	loader: 'postcss-loader',
 	options: {
-		sourceMap: false,
+		sourceMap: true,
 		plugins() {
 			return [
-				autoprefixer({ browsers: 'last 3 versions' })
+				autoprefixer({
+					browsers: 'last 3 versions'
+				}),
+				calc(), //turns calc(10px + 20px) to 30px... optimization
+				mqpacker(), //puts all media quires into one
+				cssnano({
+					zindex: false
+				}) //minifiy
 			];
 		}
 	}
@@ -28,7 +44,7 @@ const postcss = {
 const cssLoader = {
 	loader: 'css-loader',
 	options: {
-		sourceMap: false
+		sourceMap: true
 	}
 }
 
@@ -41,8 +57,25 @@ const sassLoader = {
 
 const styles = {
 	test: /\.(scss)$/,
-	use: ['style-loader', cssLoader, postcss, sassLoader]
+	use: ExtractTextPlugin.extract({
+		fallback: 'style-loader',
+		//resolve-url-loader may be chained before sass-loader if necessary 
+		use: [cssLoader, postcss, sassLoader]
+	})
 };
+
+//LOADER *RULES* - HTML
+
+const html = {
+	test: /\.(html)$/,
+	use: [{
+		loader: 'html-loader',
+		options: {
+
+		}
+	}]
+}
+
 
 module.exports = (env) => {
 	return {
@@ -57,7 +90,8 @@ module.exports = (env) => {
 		module: {
 			rules: [
 				javascript,
-				styles
+				styles,
+				html
 			]
 		},
 		plugins: [
@@ -73,7 +107,7 @@ module.exports = (env) => {
 				'**': {
 					target: devOptions.fullHubUrl,
 					secure: true,
-					changeOrigin: true, 
+					changeOrigin: true,
 				}
 			}
 		}
@@ -82,11 +116,11 @@ module.exports = (env) => {
 
 
 browserSync({
-  proxy: {
-  	target: devOptions.fullHubUrl
-  },
-  logLevel: "debug",
-  serveStatic: ['.'],
-  files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
+	proxy: {
+		target: devOptions.fullHubUrl
+	},
+	logLevel: "debug",
+	serveStatic: ['./build'],
+	files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
 
 });
