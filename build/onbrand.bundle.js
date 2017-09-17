@@ -74,8 +74,8 @@
 var devOptions = __webpack_require__(1); //Development options
 var onbrand_scss = __webpack_require__(2); //Onbrand AND client styles
 var htmlHeader = __webpack_require__(3);
-var htmlFooter = __webpack_require__(4);
-var onbrandUtilities = __webpack_require__(5); //helper functions for dev
+var htmlFooter = __webpack_require__(5);
+var onbrandUtilities = __webpack_require__(6); //helper functions for dev
 
 // -- Startup -- //
 devOptions.production ? null : onbrandUtilities(devOptions);
@@ -112,7 +112,7 @@ var devOptions = {
 	shortHubUrl: 'mark3.ufcontent.com/', //change me to the base url of your hub (no http(s) or www)
 	fullHubUrl: 'http://mark3.ufcontent.com/', //exact url to access hub
 	remindMeToGit: true,
-	notifyOnBuildSuccess: true
+	notifyOnBuildSuccess: false
 };
 
 module.exports = devOptions;
@@ -125,18 +125,24 @@ module.exports = devOptions;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "<div id=\"injected-header\">\n\t\n</div>";
+module.exports = "<div id=\"injected-header\">\n\t<img src=\"" + __webpack_require__(4) + "\" alt=\"\">\n</div>";
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "c707a97717ecc8c899463ac2eb2f0c19.png";
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = "<div id=\"injected-footer\">\n\t\n\t\n</div>";
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

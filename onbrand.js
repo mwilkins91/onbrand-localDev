@@ -4,7 +4,7 @@
   const htmlHeader = require('./includes/header.html');
   const htmlFooter = require('./includes/footer.html');
   const onbrandUtilities = require('./onbrandUtilities.js'); //helper functions for dev
-
+  
   // -- Startup -- //
   devOptions.production ? null : onbrandUtilities(devOptions);
   $('body').prepend(htmlHeader);
