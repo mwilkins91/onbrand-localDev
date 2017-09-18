@@ -68,6 +68,12 @@ const styles = {
 	})
 };
 
+//LOADER *RULES* - FONT
+const fonts ={
+	test: /\.(eot|svg|ttf|woff|woff2)$/,
+	loader: 'file-loader?name=fonts/[name].[ext]'
+}
+
 //LOADER *RULES* - HTML
 
 const html = {
@@ -85,8 +91,7 @@ const html = {
 const images = {
 	test: /\.(png|jpg|gif|svg)$/,
 	use: [{
-		loader: 'file-loader',
-		options: {}
+		loader: 'file-loader?name=images/[name].[ext]'
 	}]
 }
 
@@ -118,7 +123,8 @@ module.exports = (env) => {
 				javascript,
 				styles,
 				html,
-				images
+				images,
+				fonts
 			]
 		},
 		plugins: [

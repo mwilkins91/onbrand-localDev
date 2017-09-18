@@ -133,7 +133,7 @@ module.exports = "<div id=\"injected-header\">\n\t<img src=\"" + __webpack_requi
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "c707a97717ecc8c899463ac2eb2f0c19.png";
+module.exports = __webpack_require__.p + "images/test.png";
 
 /***/ }),
 /* 5 */
