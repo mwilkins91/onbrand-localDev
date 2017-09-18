@@ -1,9 +1,9 @@
 # Welcome to the Onbrand Webpack Project Template
 
-- [How to](#How-to)
-- [Possible Errors](#Possible-Errors)
-- [Snippets](#Add-to-hub)
-- [Deploying](#Deploying-to-Production)
+- [How to](#user-content-How-to)
+- [Possible Errors](#user-content-Possible-Errors)
+- [Snippets](#user-content-Add-to-hub)
+- [Deploying](#user-content-Deploying-to-Production)
 
 
 
