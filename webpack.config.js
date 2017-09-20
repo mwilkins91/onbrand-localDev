@@ -10,7 +10,9 @@ const mqpacker = require("css-mqpacker");
 const cssnano = require('cssnano');
 const notifier = require('node-notifier');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
-
+const webpack = require('webpack');
+const WebpackOnBuildPlugin = require('on-build-webpack');
+let browserSyncOn = false;
 
 //LOADER *RULE* - JS
 const javascript = {
@@ -38,7 +40,11 @@ const postcss = {
 				calc(), //turns calc(10px + 20px) to 30px... optimization
 				mqpacker(), //puts all media quires into one
 				cssnano({
-					zindex: false
+					zindex: false,
+					minifyFontValues: false,
+					discardUnused: false,
+					normalizeUrl: false,
+					minifyFontValues: false
 				}) //minifiy
 			];
 		}
@@ -59,6 +65,13 @@ const sassLoader = {
 	}
 }
 
+const resolveUrls = {
+	loader: 'resolve-url-loader',
+	options: {
+		sourceMap: true
+	}
+}
+
 const styles = {
 	test: /\.(scss)$/,
 	use: ExtractTextPlugin.extract({
@@ -69,13 +82,12 @@ const styles = {
 };
 
 //LOADER *RULES* - FONT
-const fonts ={
+const fonts = {
 	test: /\.(eot|svg|ttf|woff|woff2)$/,
 	loader: 'file-loader?name=fonts/[name].[ext]'
 }
 
 //LOADER *RULES* - HTML
-
 const html = {
 	test: /\.(html)$/,
 	use: [{
@@ -96,7 +108,6 @@ const images = {
 }
 
 // Error Handler
-
 const onError = (err) => {
 	notifier.notify({
 		title: 'MarkBot:',
@@ -105,17 +116,24 @@ const onError = (err) => {
 	});
 }
 
-
-
 // The Final Module Export
 module.exports = (env) => {
+
+	let publicPath;
+	if (env.prod) {
+		publicPath = `/${devOptions.cihostFolder}/build/`;
+		
+	} else {
+		publicPath = '/build/';
+		remindMeToGit();
+	}
 	return {
 		context: resolve(__dirname),
 		entry: './onbrand.js',
 		output: {
 			path: resolve(__dirname, 'build'),
 			filename: 'onbrand.bundle.js',
-			publicPath: '/build/'
+			publicPath: publicPath
 		},
 		devtool: 'source-map',
 		module: {
@@ -140,9 +158,23 @@ module.exports = (env) => {
 					console.log(obj, string);
 					return `Hey Onbrander! Wepack hit an error in ${string}. Check the terminal for details!`
 				}
-			})
+			}),
+			new webpack.DefinePlugin({
+				'production': JSON.stringify((env.prod ? true : false))
+			}),
+			new WebpackOnBuildPlugin(function(stats) {
+				if(env.prod) {
+					//we wait 1 milisecond after the event is triggered to make sure our message appears after the webpack messages.
+					setTimeout(deliverProdSnippets, 100);
+				} else {
+					//we only want browsersync to run on the first build, so check if its already going. If not, start it up.
+					if(!browserSyncOn){
+						setTimeout(browserSyncInit, 500);
+					}
+				}
+			  })
 		],
-		watch: true,
+		watch: (env.prod ? false : true),
 		stats: {
 			children: false
 		},
@@ -159,23 +191,69 @@ module.exports = (env) => {
 	};
 };
 
+function browserSyncInit() {
+	browserSync({
+		proxy: {
+			target: devOptions.fullHubUrl
+		},
+		serveStatic: ['.'],
+		files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
 
-browserSync({
-	proxy: {
-		target: devOptions.fullHubUrl
-	},
-	serveStatic: ['.'],
-	files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
+	});
+	browserSyncOn = true;
+}
 
-});
+function remindMeToGit() {
+	if (devOptions.remindMeToGit) {
+		//Git reminder 
+		setInterval(function () {
+			notifier.notify({
+				title: 'MarkBot:',
+				message: 'Hey OnBrander, you\'ve been working for a while now, it might be time for a git commit! 😎',
+				wait: true
+			});
+		}, 1200000)
+	}
+}
 
-if (devOptions.remindMeToGit) {
-	//Git reminder 
-	setInterval(function () {
-		notifier.notify({
-			title: 'MarkBot:',
-			message: 'Hey OnBrander, you\'ve been working for a while now, it might be time for a git commit! 😎',
-			wait: true
-		});
-	}, 1200000)
+function deliverProdSnippets(){
+	console.log(' ');
+	console.log(' ');
+	console.log(' ');
+
+
+	console.log("\x1b[36m", 'CSS:')
+	console.log("\x1b[36m", '/** =-=-= PRODUCTION =-=-= **/')
+	console.log("\x1b[36m", `/** `);
+	console.log("\x1b[36m", `*  onBrand CSS – WARNING: Do not remove code block below.`);
+	console.log("\x1b[36m", `*/`);
+	console.log("\x1b[36m", `</style>`);
+	console.log("\x1b[36m", `	<link rel="stylesheet" href="//cihost.uberflip.com/${devOptions.cihostFolder}/build/style.css">`);
+	console.log("\x1b[36m", `<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">-->`);
+	console.log("\x1b[36m", `<style>`);
+	console.log("\x1b[36m", `/* Add your CSS rules below */`);
+	
+	console.log(' ');
+	console.log(' ');
+	console.log(' ');
+
+	console.log("\x1b[33m", 'JavaScript:')
+	console.log("\x1b[33m", '/** =-=-= PRODUCTION =-=-= **/')
+	console.log("\x1b[33m", `/** `);
+	console.log("\x1b[33m", ` *  onBrand JS – WARNING: Do not remove code block below.`);
+	console.log("\x1b[33m", ` */`);
+	console.log("\x1b[33m", `}(window.jQuery, window.Hubs));`);
+	console.log("\x1b[33m", `</script>`);
+	console.log("\x1b[33m", `	<script src="//cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js"></script>`);
+	console.log("\x1b[33m", `	<script src="//cihost.uberflip.com/${devOptions.cihostFolder}/build/onbrand.bundle.js"></script>`);
+	console.log("\x1b[33m", `<script>`);
+	console.log("\x1b[33m", `(function($, Hubs, undefined) {`);
+	console.log("\x1b[33m", `/*  Add your JavaScript below */`);
+		
+	console.log(' ');
+	console.log(' ');
+	console.log(' ');
+
+	console.log("\x1b[32m", 'Hey Onbrander, Your code has been compiled for production. The snippets for the hub are printed above!');
+	console.log("\x1b[0m", "Next steps, git commit, and pull on cihost. Scroll up to view any errors.")
 }

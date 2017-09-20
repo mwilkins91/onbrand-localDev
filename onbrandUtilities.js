@@ -1,5 +1,13 @@
 module.exports = function(devOptions){
-  console.warn('Hey Onbrander, Just letting you know that we\'re in dev mode!')
+  console.log(' ');
+  console.log(' ');
+  console.warn('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+  console.warn('Hey Onbrander, Just letting you know that we\'re in dev mode!');
+  console.warn('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+  console.log(' ');
+  console.log(' ');
+  
+  
   /** 
    *  Utility Functions
    */
@@ -31,7 +39,7 @@ module.exports = function(devOptions){
    *  Local Development Events
    */
 
-  if (!devOptions.production) {
+  if (!production) {
     Hubs.Events.on('load', function() {
       _relativeLinks(devOptions.shortHubUrl)
       Hubs.Config.hubBaseUrl = 'http://localhost:3000/'

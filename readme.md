@@ -30,7 +30,7 @@
 
 ## CSS
 ```
-
+/** =-=-= DEVELOPMENT =-=-= **/
 /** 
  *  onBrand CSS – WARNING: Do not remove code block below.
  */
@@ -44,7 +44,7 @@
 
 ## HTML
 ```
-
+/** =-=-= DEVELOPMENT =-=-= **/
 <!--OnBrand-Dev Tag -- HTML-->
 <script id="__bs_script__">//<![CDATA[
     document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.18.13'><\/script>".replace("HOST", location.hostname));
@@ -57,7 +57,7 @@
 
 ## JS
 ```
-
+/** =-=-= DEVELOPMENT =-=-= **/
 /** 
  *  onBrand JS – WARNING: Do not remove code block below.
  */
@@ -74,9 +74,8 @@
 
 # Deploying to Production
 
-- in _dev-options.js_ switch `production` to `true`
 - in your terminal, run `npm run prod`
-- in the uberflip backend, update the custom code snippets to point to the appropriate cihost folder EX `<script src="//cihost.uberflip.com/mycompany/build/onbrand.js"></script>`
+- After the build completes, the new production snippets will be printed in your terminal. Double check you included the correct cihostFolder in dev-options!
 - commit all your changes to git.
 - ssh into the onbrand server, and navigate to your project's folder
 - git pull
