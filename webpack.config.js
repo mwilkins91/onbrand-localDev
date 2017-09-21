@@ -198,7 +198,6 @@ function browserSyncInit() {
 		},
 		serveStatic: ['.'],
 		files: ["./build/**/*.js", "./build/**/*.css", "./build/**/*.map", "./includes/**/*.html"]
-
 	});
 	browserSyncOn = true;
 }

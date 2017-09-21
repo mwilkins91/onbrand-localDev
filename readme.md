@@ -35,8 +35,25 @@
  *  onBrand CSS – WARNING: Do not remove code block below.
  */
 </style>
-     <link rel="stylesheet" href="/build/style.css">
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">-->
+<script>
+        var url = window.location.href;
+    window.hasOnbrand = false;
+
+    if (url.indexOf('?onbrand') != -1) {
+        window.hasOnbrand = true;
+    } else if (url.indexOf('&onbrand') != -1) {
+        window.hasOnbrand = true;
+    } else {
+        window.hasOnbrand = false;
+    }
+</script>
+<script id="onbrand__styles--script">//<![CDATA[
+    if(window.hasOnbrand){
+         document.write("<link id=\"onbrand__styles\" rel=\"stylesheet\" href=\"\/build/style.css\">");
+    } else {
+        document.write("<link id=\"onbrand__styles\" rel=\"stylesheet\" href=\"\/\/cihost.uberflip.com/${cihostFolder}/build/style.css\">");
+    }
+//]]></script>
 <style>
 /* Add your CSS rules below */
 
@@ -63,8 +80,15 @@
  */
 }(window.jQuery, window.Hubs));
 </script>
-<script src="//cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js"></script>
-<script src="/build/onbrand.bundle.js"></script>
+<script id="onbrand__styles--script">//<![CDATA[
+if(window.hasOnbrand) {
+    document.write("<script id=\"onbrand__libs\" src=\"\/\/cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js\"><\/script>");
+    document.write("<script id=\"onbrand__scripts\" src=\"/build/onbrand.bundle.js\"><\/script>");
+} else {
+    document.write("<script id=\"onbrand__libs\" src=\"\/\/cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js\"><\/script>");
+    document.write("<script id=\"onbrand__scripts\" src=\"\/\/cihost.uberflip.com/${cihostFolder}/build/onbrand.bundle.js\"><\/script>");
+    }
+//]]></script>
 <script>
 (function($, Hubs, undefined) {
 /*  Add your JavaScript below */
