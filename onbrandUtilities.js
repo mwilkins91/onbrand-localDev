@@ -16,6 +16,10 @@ module.exports = function(devOptions){
     Hubs.changePage(e.target.href);
   };
 
+  /**
+   * 
+   * @param {string} url - the url to replace with a relative path
+   */
   const _relativeLinks = function(url) {
     //We need relative links for local dev, so we regex for the url as the href
     var matchThis = new RegExp('^((http[s]?|ftp):\/)?\/?([^:\/\s]+)?(' + url + ')', 'gi');
@@ -24,7 +28,7 @@ module.exports = function(devOptions){
       if (matchThis.test(testThis)) {
         var newHref = testThis.replace(matchThis, '');
         if (!(newHref[0] === '/')) {
-          newHref = '/' + newHref;
+          newHref = '/' + newHref + '?onbrand';
         }
         $(this).attr('href', newHref);
         $(this).attr('target', '');
@@ -40,14 +44,21 @@ module.exports = function(devOptions){
    */
 
   if (!production) {
+    //run right away to catch any early clickers out there...
+    _relativeLinks(devOptions.shortHubUrl)
+    Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
+
+    //run on load to catch any links added via scripts or anything
     Hubs.Events.on('load', function() {
       _relativeLinks(devOptions.shortHubUrl)
       Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
     })
+    //run on page change to get links on different pages
     Hubs.Events.on('pageChange', function() {
       _relativeLinks(devOptions.shortHubUrl)
       Hubs.Config.hubBaseUrl = 'http://localhost:3000/'
     })
+    //get all the links on extra tiles added in
     Hubs.Events.on('itemsLoaded', function() {
       _relativeLinks(devOptions.shortHubUrl)
     })
