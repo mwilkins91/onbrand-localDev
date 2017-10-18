@@ -16,7 +16,10 @@ onbrandFunctions.fixShareWidgetImproved();
 // -- Custom Functions -- //
 
 // -- Hub Events -- //
-const onLoadAndPageChange = function() {};
+const onLoadAndPageChange = function() {
+	onbrandFunctions.blockCtaFix();
+	onbrandFunctions.fadeOutItem();
+};
 Hubs.Events
 	.on('load', function() {
 		if (!window.onbrandLoaded) {
