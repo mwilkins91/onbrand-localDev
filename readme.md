@@ -22,7 +22,7 @@
 **You're ready! Go!**
 
 # Possible Errors
-- To be added...
+- *svg fonts* We have no included support for svg fonts, but this can be added if neccesary. By default webpack will assume svgs are images, and load them accordingly. 
 
 
 # Add to hub 
