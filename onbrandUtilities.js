@@ -42,10 +42,12 @@ module.exports = function(devOptions) {
 			.not('.onBrand--LocalDevLink')
 			.each(function(index, el) {
 				var testThis = $(this).attr('href');
-				if (matchThis.test(testThis)) {
+				if (matchThis.test(testThis) || ( testThis && testThis.charAt(0) === '/')) {
 					var newHref = testThis.replace(matchThis, '');
 					if (!(newHref[0] === '/')) {
 						newHref = '/' + newHref + '?onbrand';
+					} else {
+						newHref = newHref + '?onbrand';
 					}
 					$(this).attr('href', newHref);
 					$(this).attr('target', '');
@@ -55,7 +57,6 @@ module.exports = function(devOptions) {
 				}
 			});
 	};
-
 	/** 
    *  Local Development Events
    */
@@ -78,6 +79,9 @@ module.exports = function(devOptions) {
 		//get all the links on extra tiles added in
 		Hubs.Events.on('itemsLoaded', function() {
 			_relativeLinks(devOptions.shortHubUrl);
+		});
+		$(window).on('search', function() {
+			setTimeout(function(){_relativeLinks(devOptions.shortHubUrl);}, 500)
 		});
 	}
 };
