@@ -42,7 +42,7 @@ module.exports = function(devOptions) {
 			.not('.onBrand--LocalDevLink')
 			.each(function(index, el) {
 				var testThis = $(this).attr('href');
-				if (matchThis.test(testThis) || ( testThis && testThis.charAt(0) === '/')) {
+				if (matchThis.test(testThis) || (testThis && testThis.charAt(0) === '/')) {
 					var newHref = testThis.replace(matchThis, '');
 					if (!(newHref[0] === '/')) {
 						newHref = '/' + newHref + '?onbrand';
@@ -81,8 +81,9 @@ module.exports = function(devOptions) {
 			_relativeLinks(devOptions.shortHubUrl);
 		});
 		$(window).on('search', function() {
-			setTimeout(function(){_relativeLinks(devOptions.shortHubUrl);}, 500)
+			setTimeout(function() {
+				_relativeLinks(devOptions.shortHubUrl);
+			}, 500);
 		});
 	}
 };
-
