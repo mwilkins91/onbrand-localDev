@@ -53,6 +53,11 @@ body.hub-page #hubs-container {
     display:block!important;
 }
 
-
+/*-- Fix side CTAs on mobile --*/
+@media all and (max-width: 1350px) {
+	.single-page .cta-item-container>.cta {
+		top: 0 !important;
+	}
+}
 
 /*-- TODO: Remove Mobile Back Button --*/
