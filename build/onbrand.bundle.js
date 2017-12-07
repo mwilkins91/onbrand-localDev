@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/build/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,22 +70,121 @@
 "use strict";
 
 
+// -- Imports -- //
+var devOptions = __webpack_require__(1); //Development options
+var onbrand_scss = __webpack_require__(2); //Onbrand styles
+var client_scss = __webpack_require__(3); //client styles
+var htmlHeader = __webpack_require__(4);
+var htmlFooter = __webpack_require__(5);
+var onbrandUtilityFunctions = __webpack_require__(6);
+// -- Startup -- //
+ false ? null : onbrandUtilityFunctions.devMode(devOptions);
+$('body').prepend(htmlHeader);
+$('body').append(htmlFooter);
+window.onbrandLoaded = false;
+onbrandUtilityFunctions.fixShareWidgetImproved();
+
+// -- Custom Functions -- //
+
+// -- Hub Events -- //
+var onLoadAndPageChange = function onLoadAndPageChange() {
+	onbrandUtilityFunctions.blockCtaFix();
+	onbrandUtilityFunctions.fadeOutItem();
+};
+Hubs.Events.on('load', function () {
+	if (!window.onbrandLoaded) {
+		onLoadAndPageChange();
+		// Add your onloads here...
+
+		// end your onloads before here...
+		window.onbrandLoaded = true;
+	}
+}).on('pageChange', function () {
+	onLoadAndPageChange();
+}).on('itemsLoaded', function (itemIds, selectors) {}).on('resize', function () {
+	sideCtaFix();
+	addThisFix();
+}).on('scroll', function () {
+	sideCtaFix();
+	addThisFix();
+	onbrandUtilityFunctions.blockCtaFix();
+	onbrandUtilityFunctions.fadeOutItem();
+}).on('ctaActivate', function (ctaId) {}).on('ctaFormSubmitSuccess', function (ctaId, mappedData, ctaName) {}).on('search', function () {});
+
+//The new hub events can trigger before cihost scripts are loaded. This will ensure your scripts fire no matter what, but not more than once for 'load'.
+if (!window.onbrandLoaded) {
+	Hubs.Events.trigger('load');
+}
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//npm run dev => Builds dev code
+//npm run prod => Builds prod code (previously you changed production: to true)
+
+var devOptions = {
+	shortHubUrl: 'mark3.ufcontent.com/', //change me to the base url of your hub (no http(s) or www)
+	fullHubUrl: 'http://mark3.ufcontent.com/' + '?onbrand', //exact url to access hub, leave onbrand query string
+	cihostFolder: '${cihostFolder}', //change me to the cihost folder name
+	remindMeToGit: true,
+	notifyOnBuildSuccess: true //Gives a (slightly annoying?) message whenever a build completes successfully
+};
+
+module.exports = devOptions;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"injected-header\">\n\n</div>";
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"injected-footer\">\n\t\n\t\n</div>";
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Loop over each tile, and if the tag specified (1st param) is present, execute yesTagFn (2nd param)
  * if the tag is not present, execute noTagFn (3rd param). In both callbacks, **this** reffers to the tile currently being
  * checked
- * 
+ *
  * @param {string} filterBy --> The tag to look for
  * @param {function} [yesTagFn=function() {}] --> The function to run if a tile has the desired tag.
  * @param {function} [noTagFn=function() {}] --> The function to run if a tile does NOT have the desired tag.
+ * @param {string} OPTIONAL: A css class to ignore, and to add after the tile has been processed.
  * @returns {boolean} --> returns true if the front end tags are enabled, otherwise returns false and logs an error.
  */
 exports.doIfTag = function (filterBy) {
 	var yesTagFn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
 	var noTagFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
+	var not = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
 	if ($('body').hasClass('include_fe_item_tags')) {
-		$('.tile').each(function (i, el) {
+		$('.tile').not(not).each(function (i, el) {
 			//Get the tags for this tile.
 			var allTagsString = el.dataset.tags;
 
@@ -109,9 +208,11 @@ exports.doIfTag = function (filterBy) {
 			if (hasTag) {
 				yesTagFn.call(this);
 				//Do this if the tile doesn't...
+				$(this).addClass(not);
 				return true;
 			} else {
 				noTagFn.call(this);
+				$(this).addClass(not);
 				return true;
 			}
 		});
@@ -125,8 +226,8 @@ exports.doIfTag = function (filterBy) {
 
 /**
  * Take the hub share window, rip it out, and make our own. On page change, replace our new share window with the appropriate one
- * for that page. Applies event listeners for load and page change, simply call near the begining of your code. 
- * 
+ * for that page. Applies event listeners for load and page change, simply call near the begining of your code.
+ *
  * @returns {function} --> The function that updates on page change.
  */
 exports.fixShareWidgetImproved = function () {
@@ -163,6 +264,14 @@ exports.fixShareWidgetImproved = function () {
 			}
 		}
 	};
+	// Make sure social still opens in popup
+	var links = document.querySelectorAll('#share-main-hub li a');
+	links.forEach(function (link) {
+		return link.addEventListener('click', function (e) {
+			e.preventDefault();
+			window.open(this.href, 'windowName', 'width=540, height=433, left=24, top=24, scrollbars, resizable');
+		});
+	});
 	Hubs.Events.on('load', update);
 	Hubs.Events.on('pageChange', update);
 	return update;
@@ -214,7 +323,7 @@ exports.blockCtaFix = function () {
 };
 
 /**
- * When called on scroll, thi function will fade out the next-item-flyout before it can overlap with the
+ * When called on scroll, this function will fade out the next-item-flyout before it can overlap with the
  * injected-footer
  */
 exports.fadeOutItem = function () {
@@ -237,143 +346,40 @@ exports.descriptionSlideUp = function () {
 	$('head').append('<style id="descriptionsSlideUp">\n\t/*-- Tile Description Pop-up Hover --*/\n\t#collection-items .tile .description {\n\t\t-webkit-transition: all 0.4s ease-out;\n\t\ttransition: all 0.4s ease-out;\n\t}\n\t#collection-items .tile .description .long-h3 {\n\t\tdisplay: block !important;\n\t}\n\t\n\t#collection-items .tile:hover .description {\n\t\theight: 100%;\n\t\t-webkit-transition: all 0.3s ease-out;\n\t\ttransition: all 0.3s ease-out;\n\t}\n\t\n\t#collection-items .tile .share-single {\n\t\tdisplay: none;\n\t}\n\t</style>');
 };
 
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// -- Imports -- //
-var devOptions = __webpack_require__(2); //Development options
-var onbrand_scss = __webpack_require__(3); //Onbrand styles
-var client_scss = __webpack_require__(4); //client styles
-var htmlHeader = __webpack_require__(5);
-var htmlFooter = __webpack_require__(6);
-var onbrandUtilities = __webpack_require__(7); //helper functions for dev
-var onbrandFunctions = __webpack_require__(0);
-// -- Startup -- //
- false ? null : onbrandUtilities(devOptions);
-$('body').prepend(htmlHeader);
-$('body').append(htmlFooter);
-window.onbrandLoaded = false;
-onbrandFunctions.fixShareWidgetImproved();
-
-// -- Custom Functions -- //
-
-// -- Hub Events -- //
-var onLoadAndPageChange = function onLoadAndPageChange() {};
-Hubs.Events.on('load', function () {
-	if (!window.onbrandLoaded) {
-		onLoadAndPageChange();
-		fixShareWidget();
-		// Add your onloads here...
-
-		// end your onloads before here...
-		window.onbrandLoaded = true;
-	}
-}).on('pageChange', function () {
-	onLoadAndPageChange();
-}).on('itemsLoaded', function (itemIds, selectors) {}).on('resize', function () {
-	sideCtaFix();
-	addThisFix();
-}).on('scroll', function () {
-	sideCtaFix();
-	addThisFix();
-	onbrandFunctions.blockCtaFix();
-	onbrandFunctions.fadeOutItem();
-}).on('ctaActivate', function (ctaId) {}).on('ctaFormSubmitSuccess', function (ctaId, mappedData, ctaName) {}).on('search', function () {});
-
-//The new hub events can trigger before cihost scripts are loaded. This will ensure your scripts fire no matter what, but not more than once for 'load'.
-if (!window.onbrandLoaded) {
-	Hubs.Events.trigger('load');
-}
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-//npm run dev => Builds dev code
-//npm run prod => Builds prod code (previously you changed production: to true)
-
-var devOptions = {
-	shortHubUrl: 'mark3.ufcontent.com/', //change me to the base url of your hub (no http(s) or www)
-	fullHubUrl: 'http://mark3.ufcontent.com/' + '?onbrand', //exact url to access hub, leave onbrand query string
-	cihostFolder: '${cihostFolder}', //change me to the cihost folder name
-	remindMeToGit: true,
-	notifyOnBuildSuccess: true //Gives a (slightly annoying?) message whenever a build completes successfully
-};
-
-module.exports = devOptions;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = "<div id=\"injected-header\">\n\n</div>";
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = "<div id=\"injected-footer\">\n\t\n\t\n</div>";
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var onbrandFunctions = __webpack_require__(0);
-
-module.exports = function (devOptions) {
+exports.devMode = function (devOptions) {
 	console.log(' ');
 	console.log(' ');
 	console.warn('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 	console.warn("   Hey Onbrander, Just letting you know that we're in dev mode!");
-	console.warn('   You have access to the following functions:', onbrandFunctions);
+	console.warn('   You have access to the following functions:', exports);
 	console.warn('   More info available here: http://cihost.uberflip.com/docs/');
 	console.warn('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 	console.log(' ');
 	console.log(' ');
 
-	/** 
-   *  Utility Functions
-   */
+	/**
+  *  Utility Functions
+  */
 	var _internalLink = function _internalLink(e) {
 		e.preventDefault();
 		Hubs.changePage(e.target.href);
 	};
 
 	/**
-   * 
-   * @param {string} url - the url to replace with a relative path
-   */
+  *
+  * @param {string} url - the url to replace with a relative path
+  */
 	var _relativeLinks = function _relativeLinks(url) {
 		//We need relative links for local dev, so we regex for the url as the href
 		var matchThis = new RegExp('^((http[s]?|ftp):/)?/?([^:/s]+)?(' + url + ')', 'gi');
 		$('a').not('.onBrand--LocalDevLink').each(function (index, el) {
 			var testThis = $(this).attr('href');
-			if (matchThis.test(testThis)) {
+			if (matchThis.test(testThis) || testThis && testThis.charAt(0) === '/') {
 				var newHref = testThis.replace(matchThis, '');
 				if (!(newHref[0] === '/')) {
 					newHref = '/' + newHref + '?onbrand';
+				} else {
+					newHref = newHref + '?onbrand';
 				}
 				$(this).attr('href', newHref);
 				$(this).attr('target', '');
@@ -383,10 +389,9 @@ module.exports = function (devOptions) {
 			}
 		});
 	};
-
-	/** 
-   *  Local Development Events
-   */
+	/**
+  *  Local Development Events
+  */
 
 	if (true) {
 		//run right away to catch any early clickers out there...
@@ -407,6 +412,80 @@ module.exports = function (devOptions) {
 		Hubs.Events.on('itemsLoaded', function () {
 			_relativeLinks(devOptions.shortHubUrl);
 		});
+		$(window).on('search', function () {
+			setTimeout(function () {
+				_relativeLinks(devOptions.shortHubUrl);
+			}, 500);
+		});
+	}
+};
+
+/**
+ * Recursivley remove all the standard classes from our topnav clone,
+ * add some handly classes in the prcoess. Called as the callback to
+ * a jQuery .each(). EX $(parent).children().each(removeClasses)
+ *
+ * @param {index} i
+ * @param {element} el
+ */
+exports.removeClasses = function removeClasses(i, el) {
+	$(el).attr('class', '').children().each(removeClasses);
+};
+
+/**
+ *
+ * @param {Regular Expression} What tag you're looking for
+ * @param {function} OPTIONAL: A function to execute if the tile has the tag, THIS = the tile inside the function.
+ * @param {function} OPTIONAL: A function to execute if the tile DOES NOT have the tag, THIS = the tile inside the function.
+ * @param {string} OPTIONAL: A css class to ignore, and to add after the tile has been processed.
+ */
+exports.doIfTagRegex = function doIfTagRegex(filterBy) {
+	var yesTagFn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+	var noTagFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
+	var not = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+
+	if (!(filterBy instanceof RegExp)) {
+		console.error(filterBy + ' is not a valid regular expression! Please use new RegExp() to generate one!');
+		return false;
+	} else if ($('body').hasClass('include_fe_item_tags')) {
+		$('.tile').not(not).each(function (i, el) {
+			//Get the tags for this tile.
+			var allTagsString = el.dataset.tags;
+
+			//assume it doesn't have the tag we want
+			var hasTag = false;
+			var theTag;
+			//If there is any tags to even check...
+			if (allTagsString) {
+				//split the tags into an array
+				var allTagsArray = allTagsString.split(',');
+
+				//loop over the array
+				allTagsArray.forEach(function (tag) {
+					//if the tag matches what we're looking for, change hasTag to true
+					if (filterBy.test(tag)) {
+						hasTag = true;
+						theTag = tag;
+					}
+				});
+			}
+			//Do this if the tile has the tag
+			if (hasTag) {
+				yesTagFn.call(this, theTag);
+				//Do this if the tile doesn't...
+				$(this).addClass(not);
+				return true;
+			} else {
+				noTagFn.call(this);
+				$(this).addClass(not);
+				return true;
+			}
+		});
+	} else {
+		console.error('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
+		console.error('  Onbrander: You called doIfTag, but front end tags are NOT enabled !');
+		console.error('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
+		return false;
 	}
 };
 

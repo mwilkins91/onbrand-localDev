@@ -25,6 +25,7 @@ module.exports = {
 		'class-methods-use-this': 0,
 		'react/jsx-indent': 0,
 		'react/sort-comp': 0,
+		'prefer-arrow-callback': 0,
 		'arrow-body-style': [2, 'as-needed'],
 		'no-param-reassign': [
 			2,
@@ -75,6 +76,10 @@ module.exports = {
 				aspects: ['invalidHref']
 			}
 		]
+	},
+	globals: {
+		Hubs: false,
+		production: false
 	},
 	plugins: ['eslint-plugin-html']
 };

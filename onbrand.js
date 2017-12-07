@@ -4,33 +4,30 @@ const onbrand_scss = require('./onbrand.scss'); //Onbrand styles
 const client_scss = require('./client/client.scss'); //client styles
 const htmlHeader = require('./includes/header.html');
 const htmlFooter = require('./includes/footer.html');
-const onbrandUtilities = require('./onbrandUtilities.js'); //helper functions for dev
-const onbrandFunctions = require('onbrandutilityfunctions');
+const onbrandUtilityFunctions = require('onbrandutilityfunctions');
 // -- Startup -- //
-production ? null : onbrandUtilities(devOptions);
+production ? null : onbrandUtilityFunctions.devMode(devOptions);
 $('body').prepend(htmlHeader);
 $('body').append(htmlFooter);
 window.onbrandLoaded = false;
-onbrandFunctions.fixShareWidgetImproved();
+onbrandUtilityFunctions.fixShareWidgetImproved();
 
 // -- Custom Functions -- //
 
 // -- Hub Events -- //
 const onLoadAndPageChange = function() {
-	onbrandFunctions.blockCtaFix();
-	onbrandFunctions.fadeOutItem();
+	onbrandUtilityFunctions.blockCtaFix();
+	onbrandUtilityFunctions.fadeOutItem();
 };
-Hubs.Events
-	.on('load', function() {
-		if (!window.onbrandLoaded) {
-			onLoadAndPageChange();
-			fixShareWidget();
-			// Add your onloads here...
+Hubs.Events.on('load', function() {
+	if (!window.onbrandLoaded) {
+		onLoadAndPageChange();
+		// Add your onloads here...
 
-			// end your onloads before here...
-			window.onbrandLoaded = true;
-		}
-	})
+		// end your onloads before here...
+		window.onbrandLoaded = true;
+	}
+})
 	.on('pageChange', function() {
 		onLoadAndPageChange();
 	})
@@ -42,8 +39,8 @@ Hubs.Events
 	.on('scroll', function() {
 		sideCtaFix();
 		addThisFix();
-		onbrandFunctions.blockCtaFix();
-		onbrandFunctions.fadeOutItem();
+		onbrandUtilityFunctions.blockCtaFix();
+		onbrandUtilityFunctions.fadeOutItem();
 	})
 	.on('ctaActivate', function(ctaId) {})
 	.on('ctaFormSubmitSuccess', function(ctaId, mappedData, ctaName) {})

@@ -1,63 +1,21 @@
 
+@import './node_Modules/onbrandutilityfunctions/sassFunctions';
+@import './partials/onbrandBoilerplate';
 
-/**
-*	Top Nav
-*/
-body.hub-page #hubs-container {
-	margin-top: 90px;
-}
-
-.top-nav {
-	position: relative;
-	.secondary-logo {
-		display: none;
-	}
-	.left-nav {
-		margin: 0!important;
-		left: 0!important;
-		li a,
-		li ul li a {
-			font-size: 14px!important;
-		}
-	}
-}
+// --- Hey Onbrander, here are some functions you might find handy
+/* Functions & Mixins:
+ * [     findColorInvert(someColorHere)   ] =>  the most accesibly color 
+ *												for text on that color background. 
+ *												findColorInvert(black) = white;
+ *
+ * [     @include center('vertical')      ] =>  vertically centers element inside 
+ *												a relative parent. (also 'horizontal',
+ * 												and 'both'. 
+ *
+ * [     @extend %clearfix                ] =>  clearfixes the element 
+ *												without the need to add the class
+ */ 
 
 
-.nav-back{
-	display:none!important;
-}
-
-/**
-*	Injected Header
-*/
-
-#injected-header {
-	
-}
 
 
-/**
-*	Injected Footer
-*/
-
-#injected-footer {
-	
-}
-
-/**
-*	Bug Fixes
-*/
-
-/*-- Bootstrap CTA fix --*/
-.single-page .cta.hide{
-    display:block!important;
-}
-
-/*-- Fix side CTAs on mobile --*/
-@media all and (max-width: 1350px) {
-	.single-page .cta-item-container>.cta {
-		top: 0 !important;
-	}
-}
-
-/*-- TODO: Remove Mobile Back Button --*/
