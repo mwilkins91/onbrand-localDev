@@ -4,16 +4,22 @@
 
 // --- Hey Onbrander, here are some functions you might find handy
 /* Functions & Mixins:
- * [     findColorInvert(someColorHere)   ] =>  the most accesibly color 
+ *
+ * [     findColorInvert(someColorHere)   ] =>  the most accesible color 
  *												for text on that color background. 
- *												findColorInvert(black) = white;
+ *												EX: findColorInvert(black) = white;
  *
  * [     @include center('vertical')      ] =>  vertically centers element inside 
  *												a relative parent. (also 'horizontal',
- * 												and 'both'. 
+ * 												and 'both'.)
  *
  * [     @extend %clearfix                ] =>  clearfixes the element 
  *												without the need to add the class
+ *
+ * [     @include brandColorTopNav($1,$2) ] =>  Modifies the colours of the topnav. 
+ *												$1 becomes the background color of the topnav
+ *                                              $2 becomes the color of the text ontop of the top-nav
+ *                                              EX: .top-nav {@include brandColorTopNav(#747474, #FFFFFF);}
  */ 
 
 

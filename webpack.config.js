@@ -10,7 +10,27 @@ const notifier = require('node-notifier');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const webpack = require('webpack');
 const WebpackOnBuildPlugin = require('on-build-webpack');
+
 let browserSyncOn = false;
+const quotes = [
+	'You can do anything, but not everything. Take care of yourself!',
+	'Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.',
+	'There is nothing permanent except change. Time for a rebrand?',
+	"You can't blame gravity for bad CSS.",
+	"I have not failed. I've just found 10,000 ways that won't work. Ah screw it, I'll just use JS.",
+	'You got this, Onbrander!',
+	"Go get 'em Onbrander!",
+	'I like dogs.',
+	'Calculating Inverse Probability Matrices...',
+	'Hello friend Human. I am friend Webpack.',
+	'🤖 ❤️ 🙂'
+];
+
+function randomQuote() {
+	return quotes[Math.floor(Math.random() * quotes.length)];
+}
+
+// -- Start Webpack Code -- //
 
 //LOADER *RULE* - JS
 const javascript = {
@@ -42,8 +62,7 @@ const postcss = {
 					zindex: false,
 					minifyFontValues: false,
 					discardUnused: false,
-					normalizeUrl: false,
-					minifyFontValues: false
+					normalizeUrl: false
 				}) //minifiy
 			];
 		}
@@ -163,6 +182,12 @@ module.exports = env => {
 					//we only want browsersync to run on the first build, so check if its already going. If not, start it up.
 					if (!browserSyncOn) {
 						setTimeout(browserSyncInit, 500);
+						setTimeout(function() {
+							console.log('');
+							console.log('');
+							console.log('\x1b[32m', `Markbot: ${randomQuote()}`);
+							console.log('\x1b[0m', ' ');
+						}, 1000);
 					}
 				}
 			})
@@ -230,7 +255,9 @@ function deliverProdSnippets() {
 	console.log('\x1b[36m', `</style>`);
 	console.log(
 		'\x1b[36m',
-		`	<link rel="stylesheet" href="//cihost.uberflip.com/${devOptions.cihostFolder}/build/style.css">`
+		`	<link rel="stylesheet" href="//cihost.uberflip.com/${
+			devOptions.cihostFolder
+		}/build/style.css">`
 	);
 	console.log(
 		'\x1b[36m',
@@ -259,7 +286,9 @@ function deliverProdSnippets() {
 	);
 	console.log(
 		'\x1b[33m',
-		`	<script src="//cihost.uberflip.com/${devOptions.cihostFolder}/build/onbrand.bundle.js"></script>`
+		`	<script src="//cihost.uberflip.com/${
+			devOptions.cihostFolder
+		}/build/onbrand.bundle.js"></script>`
 	);
 	console.log('\x1b[33m', `<script>`);
 	console.log('\x1b[33m', `(function($, Hubs, undefined) {`);
