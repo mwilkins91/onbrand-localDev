@@ -38,6 +38,7 @@ const quotes = [
 	'According to my calculations the problem doesn\'t exist.',
 	'As far as we know, a hub has never had an undetected error.',
 	'ERROR: Cannot load Windows 95.',
+	'I am the bio',
 	'Don\'t hit the keys so hard, it hurts!',
 	'Always remember, Mike is a dog.🐕',
 	'If both basketball teams worked together, they could score so many more points!',
