@@ -35,6 +35,7 @@
  *  onBrand CSS – WARNING: Do not remove code block below.
  */
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script>
         var url = window.location.href;
     window.hasOnbrand = false;

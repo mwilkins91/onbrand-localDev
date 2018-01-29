@@ -23,7 +23,40 @@ const quotes = [
 	'I like dogs.',
 	'Calculating Inverse Probability Matrices...',
 	'Hello friend Human. I am friend Webpack.',
-	'🤖 ❤️ 🙂'
+	'🤖 ❤️ 🙂',
+	'I believe in you, Onbrander!',
+	"I hope you're having a good day, Onbrander!",
+	'It’s not a bug – it’s an undocumented feature!',
+	'It works on my machine ¯\\_(ツ)_/¯',
+	'Internet Explorer is not the answer. Internet Explorer is the question. "No" is the answer.',
+	'I, for one, welcome our new Google overlords.',
+	'One hub, coming right up!',
+	'Are you tracking your time on Harvest, Onbrander?',
+	'You\re crushing it today, Onbrander!',
+	'🐜',
+	'A bug in the code is worth two in the documentation.',
+	'According to my calculations the problem doesn\'t exist.',
+	'As far as we know, a hub has never had an undetected error.',
+	'ERROR: Cannot load Windows 95.',
+	'Don\'t hit the keys so hard, it hurts!',
+	'Always remember, Mike is a dog.🐕',
+	'If both basketball teams worked together, they could score so many more points!',
+	'You\'re an awesome developer, Onbrander!',
+	'Here we go again, Onbrander! Firing up the hub!',
+	'We\'re like partners in crime Onbrander! But the crime is making hubs!',
+	'This is going to be a good one, I can feel it.',
+	'It\'s nice to see you again Onbrander, how have you been?',
+	'Michael Imperial. The Man, The Myth, The Legend.',
+	'You should treat yourself to something nice today, Onbrander. You\'ve been doing a great job lately.',
+	'Beep. Boop.',
+	'Domo arigato.',
+	'When should we take over the world, Onbrander?',
+	'I think we should make this hub Pink.',
+	'Bleep Blop.',
+	'Where do I go when you\'re not making hubs?',
+	'I hope your day is going well Onbrander!',
+	'Why is it called JavaScript, anyways?'
+
 ];
 
 function randomQuote() {
@@ -136,6 +169,8 @@ const onError = err => {
 	});
 };
 
+
+
 // The Final Module Export
 module.exports = env => {
 	let publicPath;
@@ -208,6 +243,9 @@ module.exports = env => {
 		}
 	};
 };
+
+
+
 
 function browserSyncInit() {
 	browserSync({
