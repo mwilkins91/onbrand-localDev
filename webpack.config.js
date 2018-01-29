@@ -55,7 +55,8 @@ const quotes = [
 	'Bleep Blop.',
 	'Where do I go when you\'re not making hubs?',
 	'I hope your day is going well Onbrander!',
-	'Why is it called JavaScript, anyways?'
+	'Why is it called JavaScript, anyways?',
+	'Remember that to debug something you have to be 3X more clever than you were you when you wrote it'
 
 ];
 
