@@ -11,7 +11,7 @@ $('body').prepend(htmlHeader);
 $('body').append(htmlFooter);
 window.onbrandLoaded = false;
 onbrandUtilityFunctions.fixShareWidgetImproved();
-
+onbrandUtilityFunctions.noQueryStringSafeguard();
 // -- Custom Functions -- //
 
 // -- Hub Events -- //
