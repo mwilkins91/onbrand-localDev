@@ -46,3 +46,29 @@ body.hub-page #hubs-container {
         pointer-events: unset !important;
     }
 }
+
+
+//fixes for search and mobile hub nav with a header/footer added in 
+
+.search-results-overlay,
+.search-results-backdrop {
+    z-index: 999999999 !important;
+    top: 0 !important;
+}
+
+.mobile-search-header {
+    display: block !important;
+}
+
+.breadcrumbs-container {
+    top: 30px !important;
+}
+
+
+.overlay-scroller {
+    padding-top: 50px !important;
+}
+
+.mobile-nav {
+    z-index: 999999999999 !important;
+}
