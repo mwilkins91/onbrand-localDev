@@ -10,9 +10,9 @@ production ? null : onbrandUtilityFunctions.devMode(devOptions);
 $('body').prepend(htmlHeader);
 $('body').append(htmlFooter);
 window.onbrandLoaded = false;
-onbrandUtilityFunctions.helpfulClasses();
+onbrandUtilityFunctions.helpfulClasses(); // Adds body classes for content type (blogPost, youtube, etc)
 onbrandUtilityFunctions.fixShareWidgetImproved();
-onbrandUtilityFunctions.noQueryStringSafeguard();
+onbrandUtilityFunctions.noQueryStringSafeguard(); // warns you if your query string is missing.
 // -- Custom Functions -- //
 
 // -- Hub Events -- //
