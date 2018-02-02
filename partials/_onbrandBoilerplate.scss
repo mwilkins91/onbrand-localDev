@@ -1,30 +1,35 @@
-
-
 body.hub-page #hubs-container {
 	margin-top: 90px;
+}
+
+body.ufw-viewer {
+	#injected-header,
+	#injected-footer {
+		display: none !important;
+	}
 }
 
 /**
 *	Top Nav
 */
+
 .top-nav {
 	position: relative;
 	.secondary-logo {
 		display: none;
 	}
 	.left-nav {
-		margin: 0!important;
-		left: 0!important;
+		margin: 0 !important;
+		left: 0 !important;
 		li a,
 		li ul li a {
-			font-size: 14px!important;
+			font-size: 14px !important;
 		}
 	}
 }
 
-
-.nav-back{
-	display:none!important;
+.nav-back {
+	display: none !important;
 }
 
 /**
@@ -32,6 +37,7 @@ body.hub-page #hubs-container {
 */
 
 /*-- Fix side CTAs on mobile --*/
+
 @media all and (max-width: 1350px) {
 	.single-page .cta-item-container>.cta {
 		top: 0 !important;
@@ -39,36 +45,34 @@ body.hub-page #hubs-container {
 }
 
 /*-- Fix tile clicks on mobile for android --*/
+
 @media all and (max-width: 600px) {
-    html body.disable-hover,
-    html body.disable-hover * {
-        pointer-events: initial !important;
-        pointer-events: unset !important;
-    }
+	html body.disable-hover,
+	html body.disable-hover * {
+		pointer-events: initial !important;
+		pointer-events: unset !important;
+	}
 }
 
-
 //fixes for search and mobile hub nav with a header/footer added in 
-
 .search-results-overlay,
 .search-results-backdrop {
-    z-index: 999999999 !important;
-    top: 0 !important;
+	z-index: 999999999 !important;
+	top: 0 !important;
 }
 
 .mobile-search-header {
-    display: block !important;
+	display: block !important;
 }
 
 .breadcrumbs-container {
-    top: 30px !important;
+	top: 30px !important;
 }
 
-
 .overlay-scroller {
-    padding-top: 50px !important;
+	padding-top: 50px !important;
 }
 
 .mobile-nav {
-    z-index: 999999999999 !important;
+	z-index: 999999999999 !important;
 }

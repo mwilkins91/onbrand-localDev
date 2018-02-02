@@ -10,6 +10,7 @@ production ? null : onbrandUtilityFunctions.devMode(devOptions);
 $('body').prepend(htmlHeader);
 $('body').append(htmlFooter);
 window.onbrandLoaded = false;
+onbrandUtilityFunctions.helpfulClasses();
 onbrandUtilityFunctions.fixShareWidgetImproved();
 onbrandUtilityFunctions.noQueryStringSafeguard();
 // -- Custom Functions -- //
