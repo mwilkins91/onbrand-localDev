@@ -13,6 +13,7 @@ window.onbrandLoaded = false;
 onbrandUtilityFunctions.helpfulClasses(); // Adds body classes for content type (blogPost, youtube, etc)
 onbrandUtilityFunctions.fixShareWidgetImproved();
 onbrandUtilityFunctions.noQueryStringSafeguard(); // warns you if your query string is missing.
+onbrandUtilityFunctions.recoEnginePositioning('.top-nav'); //makes the reco engine sticky to the target / top of screen 
 // -- Custom Functions -- //
 
 // -- Hub Events -- //
