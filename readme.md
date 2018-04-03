@@ -34,7 +34,7 @@
 /** 
  *  onBrand CSS – WARNING: Do not remove code block below.
  */
-</style>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script>
         var url = window.location.href;
@@ -56,8 +56,8 @@
     }
 //]]></script>
 <style>
-/* Add your CSS rules below */
-
+/* Write your CSS rules here */
+</style>
 ```
 
 ## HTML
@@ -79,8 +79,8 @@
 /** 
  *  onBrand JS – WARNING: Do not remove code block below.
  */
-}(window.jQuery, window.Hubs));
-</script>
+
+
 <script id="onbrand__styles--script">//<![CDATA[
 if(window.hasOnbrand) {
     document.write("<script id=\"onbrand__libs\" src=\"\/\/cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js\"><\/script>");
@@ -91,8 +91,8 @@ if(window.hasOnbrand) {
     }
 //]]></script>
 <script>
-(function($, Hubs, undefined) {
-/*  Add your JavaScript below */
+/*  Write your JavaScript here */
+</script>
 	
 ```
 
