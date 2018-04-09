@@ -1,0 +1,6 @@
+# 3rd-party code
+node_modules/
+
+# dist and dist-like directories
+build/
+client/

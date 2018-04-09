@@ -30,70 +30,47 @@
 
 ## CSS
 ```
-/** =-=-= DEVELOPMENT =-=-= **/
-/** 
- *  onBrand CSS – WARNING: Do not remove code block below.
- */
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<!-- =-=-= DEVELOPMENT =-=-= -->
+<!-- OnBrand-Dev Tag: Setup & CSS -->
+<script src="//cihost.uberflip.com/onbrand/build/onbrand-global-library.bundle.js"></script>
 <script>
-        var url = window.location.href;
-    window.hasOnbrand = false;
-
-    if (url.indexOf('?onbrand') != -1) {
-        window.hasOnbrand = true;
-    } else if (url.indexOf('&onbrand') != -1) {
-        window.hasOnbrand = true;
-    } else {
-        window.hasOnbrand = false;
-    }
+window.onbrand = new Onbrand({
+        styles: ['style.css'],
+        scripts: ['onbrand.bundle.js'],
+        cihostFolder: '${cihostFolder}'
+    });
+    // Add onbrand styles to <head>
+    onbrand.printResources('styles');
 </script>
-<script id="onbrand__styles--script">//<![CDATA[
-    if(window.hasOnbrand){
-         document.write("<link id=\"onbrand__styles\" rel=\"stylesheet\" href=\"\/build/style.css\">");
-    } else {
-        document.write("<link id=\"onbrand__styles\" rel=\"stylesheet\" href=\"\/\/cihost.uberflip.com/${cihostFolder}/build/style.css\">");
-    }
-//]]></script>
-<style>
-/* Write your CSS rules here */
-</style>
+<!-- End Onbrand CSS: Add your code below -->
+
 ```
 
 ## HTML
 ```
+
 <!-- =-=-= DEVELOPMENT =-=-= -->
-<!--OnBrand-Dev Tag -- HTML-->
+<!--OnBrand-Dev Tag: HTML-->
 <script id="__bs_script__">//<![CDATA[
     document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.18.13'><\/script>".replace("HOST", location.hostname));
 //]]></script>
 <script async="" src="/browser-sync/browser-sync-client.js?v=2.18.13"></script>
-
+<!-- End Onbrand HTML: Add your code below -->
 
 ```
 
 
 ## JS
 ```
-/** =-=-= DEVELOPMENT =-=-= **/
-/** 
- *  onBrand JS – WARNING: Do not remove code block below.
- */
 
-
-<script id="onbrand__styles--script">//<![CDATA[
-if(window.hasOnbrand) {
-    document.write("<script id=\"onbrand__libs\" src=\"\/\/cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js\"><\/script>");
-    document.write("<script id=\"onbrand__scripts\" src=\"/build/onbrand.bundle.js\"><\/script>");
-} else {
-    document.write("<script id=\"onbrand__libs\" src=\"\/\/cihost.uberflip.com/onBrand/libs/dist/onbrand-libs.js\"><\/script>");
-    document.write("<script id=\"onbrand__scripts\" src=\"\/\/cihost.uberflip.com/${cihostFolder}/build/onbrand.bundle.js\"><\/script>");
-    }
-//]]></script>
+<!-- =-=-= DEVELOPMENT =-=-= -->
+<!--OnBrand-Dev Tag: JS-->
 <script>
-/*  Write your JavaScript here */
+    onbrand.printResources('scripts');
 </script>
-	
+<!-- End Onbrand JS: Add your code below -->	
+
 ```
 
 
