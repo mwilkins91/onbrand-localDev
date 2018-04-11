@@ -49,6 +49,6 @@
     "babel-polyfill": "^6.26.0",
     "i": "^0.3.6",
     "npm": "^5.5.1",
-    "onbrandutilityfunctions": "^2.0.3"
+    "onbrandutilityfunctions": "^2.0.5"
   }
 }
