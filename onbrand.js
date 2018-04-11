@@ -8,7 +8,7 @@ const htmlFooter = require('./includes/footer.html');
 const onbrandUtilityFunctions = require('onbrandutilityfunctions');
 
 // -- Startup -- //
-if (production) onbrandUtilityFunctions.devMode(devOptions);
+if (!production) onbrandUtilityFunctions.devMode(devOptions);
 window.onbrandLoaded = false;
 $('body').prepend(htmlHeader);
 $('body').append(htmlFooter);
