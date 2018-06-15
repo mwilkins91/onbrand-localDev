@@ -97,11 +97,19 @@ if (window.hasOnbrand) {
 
 # Deploying to Production
 
-- in your terminal, run `npm run prod`
-- After the build completes, the new production snippets will be printed in your terminal. Double check you included the correct cihostFolder in dev-options!
-- commit all your changes to git.
-- ssh into the onbrand server, and navigate to your project's folder
-- git pull
-**You're Done!**
+1. Make sure you have all the latest code. Either
+(merge workflow)
+`git pull`
+or
+(rebase workflow)
+`git fetch`
+`git rebase origin/master`
 
-**NOTE:** if you need to reset the cihost repo, you can use `git reset --hard` to return the repo to its last commit. Careful though, if you made any changes on cihost they'll be gone!
+2. Make sure the repo is going to be deployed to the correct path on cihost.
+`cat .deploypath`
+and confirm that the path is correct. (It's relative to the root project directory on cihost, so if you expect the code to be deployed to `/shared/lytxV2`, the file should contain `lytxV2`.)
+
+3. Build and deploy!
+`make deploy_prod`
+
+**You're Done!**
